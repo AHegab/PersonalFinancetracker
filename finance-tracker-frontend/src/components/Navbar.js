@@ -27,10 +27,10 @@ const Navbar = () => {
                         <Link href="/auth/register" className="text-gray-600 hover:text-blue-600 transition duration-200">
                             Register
                         </Link>
-                        <Link href="/transactions" className="text-gray-600 hover:text-blue-600 transition duration-200">
+                        <Link href="/auth/transactions" className="text-gray-600 hover:text-blue-600 transition duration-200">
                             Transactions
                         </Link>
-                        <Link href="/analysis" className="text-gray-600 hover:text-blue-600 transition duration-200">
+                        <Link href="/auth/analysis" className="text-gray-600 hover:text-blue-600 transition duration-200">
                             Analysis
                         </Link>
                         <Link href="/auth/authorization" className="text-gray-600 hover:text-blue-600 transition duration-200">
