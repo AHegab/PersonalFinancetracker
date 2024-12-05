@@ -1,4 +1,4 @@
-// src/components/ResetPassword.js
+//Still didnt add the page for it and service
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
