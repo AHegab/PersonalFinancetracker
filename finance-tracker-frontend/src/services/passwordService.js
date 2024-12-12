@@ -7,12 +7,12 @@ const API = axios.create({
 });
 
 // Forgot Password: Send Email
-export const forgetPassword = async (email) => {
+export const forgotPassword = async (email) => {
     if (!email || !email.trim()) {
         throw new Error("Email is required");
     }
     try {
-        const response = await API.post("/auth/forget-password", { email });
+        const response = await API.post("/password/forget-password", { email });
         return response.data; // Return response data
     } catch (error) {
         console.error("Forget Password Error:", error.response?.data || error.message);
@@ -28,7 +28,7 @@ export const resetPassword = async (token, newPassword) => {
         throw new Error("Token and new password are required");
     }
     try {
-        const response = await API.post("/auth/reset-password", { token, newPassword });
+        const response = await API.post("/password/reset-password", { token, newPassword });
         return response.data; // Return response data
     } catch (error) {
         console.error("Reset Password Error:", error.response?.data || error.message);

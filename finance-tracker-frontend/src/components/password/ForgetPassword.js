@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 
-const ResetPassword = () => {
+const ForgotPassword = () => {
     const router = useRouter();
     const { token } = router.query; // Get the token from the URL
     const [newPassword, setNewPassword] = useState('');
@@ -52,4 +52,4 @@ const ResetPassword = () => {
     );
 };
 
-export default ResetPassword;
+export default ForgotPassword;
