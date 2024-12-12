@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useEffect } from "react";
 import { findByEmail } from "../../services/profileService"; // Adjust the import path if needed
 

@@ -1,3 +1,5 @@
+"use client";
+
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { findById } from "../../services/profileService"; // Adjust the import path if needed

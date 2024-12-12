@@ -13,13 +13,22 @@ const TransactionsPage = () => {
                 </p>
                 <div className="space-y-4">
                     <Link href="/transactions/add-transaction" className="block text-center bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-200">
-                        AddTransactions
+                        Add Transaction
                     </Link>
-                    <Link href="/transactions/verify-2fa" className="block text-center bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-200">
-                        Verify 2FA
+                    <Link href="/transactions/delete-transaction" className="block text-center bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-200">
+                        Delete Transaction
                     </Link>
-                    <Link href="/transactions/request-password-reset" className="block text-center bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-200">
-                        Request password reset
+                    <Link href="/transactions/get-all-transactions" className="block text-center bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-200">
+                        Get All Transactions
+                    </Link>
+                    <Link href="/transactions/get-id-transaction" className="block text-center bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-200">
+                        Get ID Transaction
+                    </Link>
+                    <Link href="/transactions/get-user-transactions" className="block text-center bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-200">
+                        Get Users Transactions
+                    </Link>
+                    <Link href="/transactions/update-transaction" className="block text-center bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-200">
+                        Update Transactions
                     </Link>
                 </div>
             </div>
