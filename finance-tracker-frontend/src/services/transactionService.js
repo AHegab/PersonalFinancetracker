@@ -8,7 +8,7 @@ const API = axios.create({
 // Add a transaction
 export const addTransaction = async (createDto, userId) => {
     try {
-        const response = await API.post('/transactions/add-transaction', { ...createDto, userId });
+        const response = await API.post('/transactions/add-transaction', { createDto, userId });
         return response.data;
     } catch (error) {
         console.error("Add Transaction Error:", error.response?.data || error.message);

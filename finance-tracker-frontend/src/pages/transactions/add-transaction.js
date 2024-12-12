@@ -1,38 +1,72 @@
 "use client";
 
 import React, { useState } from "react";
-import { addTransaction } from "../../services/transactionService";
+import axios from "axios";
 
 const AddTransactionPage = () => {
-    const [userId, setUserId] = useState("");
-    const [amount, setAmount] = useState("");
-    const [vendorName, setVendorName] = useState("");
-    const [transactionDate, setTransactionDate] = useState("");
-    const [category, setCategory] = useState("");
-    const [paymentMethod, setPaymentMethod] = useState("");
-    const [place, setPlace] = useState("");
-    const [description, setDescription] = useState(""); // Added description state
+    const [formData, setFormData] = useState({
+        userId: "",
+        amount: "",
+        vendorName: "",
+        transactionDate: "",
+        category: "",
+        paymentMethod: "",
+        cardLastFourDigits: "",
+        place: "",
+        notes: "",
+    });
+
     const [message, setMessage] = useState(null);
     const [error, setError] = useState(null);
 
-    const handleSubmit = async (e) => {
+    // Handle input changes
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
+    };
 
-        // Validate form inputs
+    // Validate form data
+    const validateForm = () => {
+        if (!formData.userId || !formData.amount || !formData.transactionDate) {
+            return "User ID, Amount, and Transaction Date are required.";
+        }
+        if (Number(formData.amount) <= 0) {
+            return "Amount must be a positive number.";
+        }
+        return null; // No errors
+    };
+
+    // Handle form submission
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        // Perform validation
         const validationError = validateForm();
         if (validationError) {
             setError(validationError);
-            setMessage(null); // Clear success message if validation fails
+            setMessage(null);
             return;
         }
 
         try {
-            const createDto = { amount, description, vendorName, transactionDate, category, paymentMethod, place };
-            await addTransaction(createDto, userId);
+            const response = await axios.post("/transactions", formData);
             setMessage("Transaction added successfully!");
-            setError(null); // Clear any previous errors
+            setError(null);
+            // Reset form
+            setFormData({
+                userId: "",
+                amount: "",
+                vendorName: "",
+                transactionDate: "",
+                category: "",
+                paymentMethod: "",
+                cardLastFourDigits: "",
+                place: "",
+                notes: "",
+            });
         } catch (err) {
-            setError(err.message || "Failed to add transaction.");
-            setMessage(null); // Clear success message if there's an error
+            setError(err.response?.data?.message || "Failed to add transaction.");
+            setMessage(null);
         }
     };
 
@@ -43,96 +77,36 @@ const AddTransactionPage = () => {
             {message && <p className="text-green-500">{message}</p>}
             {error && <p className="text-red-500">{error}</p>}
 
-            <form onSubmit={handleSubmit} className="mt-4 w-full max-w-md">
-                <div>
-                    <label className="block text-sm font-medium">User ID</label>
-                    <input
-                        type="text"
-                        value={userId}
-                        onChange={(e) => setUserId(e.target.value)}
-                        placeholder="Enter user ID"
-                        className="block w-full p-2 border border-gray-300 rounded mt-1"
-                    />
-                </div>
-
-                <div className="mt-4">
-                    <label className="block text-sm font-medium">Amount</label>
-                    <input
-                        type="number"
-                        value={amount}
-                        onChange={(e) => setAmount(e.target.value)}
-                        placeholder="Enter transaction amount"
-                        className="block w-full p-2 border border-gray-300 rounded mt-1"
-                    />
-                </div>
-
-                <div className="mt-4">
-                    <label className="block text-sm font-medium">Vendor Name</label>
-                    <input
-                        type="text"
-                        value={vendorName}
-                        onChange={(e) => setVendorName(e.target.value)}
-                        placeholder="Enter vendor name"
-                        className="block w-full p-2 border border-gray-300 rounded mt-1"
-                    />
-                </div>
-
-                <div className="mt-4">
-                    <label className="block text-sm font-medium">Transaction Date</label>
-                    <input
-                        type="date"
-                        value={transactionDate}
-                        onChange={(e) => setTransactionDate(e.target.value)}
-                        className="block w-full p-2 border border-gray-300 rounded mt-1"
-                    />
-                </div>
-
-                <div className="mt-4">
-                    <label className="block text-sm font-medium">Category</label>
-                    <input
-                        type="text"
-                        value={category}
-                        onChange={(e) => setCategory(e.target.value)}
-                        placeholder="Enter transaction category"
-                        className="block w-full p-2 border border-gray-300 rounded mt-1"
-                    />
-                </div>
-
-                <div className="mt-4">
-                    <label className="block text-sm font-medium">Payment Method</label>
-                    <input
-                        type="text"
-                        value={paymentMethod}
-                        onChange={(e) => setPaymentMethod(e.target.value)}
-                        placeholder="Enter payment method"
-                        className="block w-full p-2 border border-gray-300 rounded mt-1"
-                    />
-                </div>
-
-                <div className="mt-4">
-                    <label className="block text-sm font-medium">Place</label>
-                    <input
-                        type="text"
-                        value={place}
-                        onChange={(e) => setPlace(e.target.value)}
-                        placeholder="Enter place"
-                        className="block w-full p-2 border border-gray-300 rounded mt-1"
-                    />
-                </div>
-
-                <div className="mt-4">
-                    <label className="block text-sm font-medium">Description</label>
-                    <textarea
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
-                        placeholder="Enter transaction description"
-                        className="block w-full p-2 border border-gray-300 rounded mt-1"
-                    />
-                </div>
+            <form onSubmit={handleSubmit} className="space-y-4 w-full max-w-md">
+                {Object.keys(formData).map((field) => (
+                    <div key={field}>
+                        <label className="block text-sm font-medium capitalize">
+                            {field.replace(/([A-Z])/g, " $1")}
+                        </label>
+                        {field === "notes" ? (
+                            <textarea
+                                name={field}
+                                value={formData[field]}
+                                onChange={handleChange}
+                                placeholder={`Enter ${field}`}
+                                className="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                            />
+                        ) : (
+                            <input
+                                type={field === "transactionDate" ? "date" : "text"}
+                                name={field}
+                                value={formData[field]}
+                                onChange={handleChange}
+                                placeholder={`Enter ${field}`}
+                                className="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                            />
+                        )}
+                    </div>
+                ))}
 
                 <button
                     type="submit"
-                    className="mt-6 px-4 py-2 bg-blue-500 text-white rounded-md"
+                    className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600"
                 >
                     Add Transaction
                 </button>
