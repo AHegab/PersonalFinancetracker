@@ -54,7 +54,7 @@ const RegisterPage = () => {
     return (
         <div className="flex justify-center items-center min-h-screen bg-gray-100">
             <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md">
-                <h1 className="text-2xl font-bold mb-4 text-center">Register</h1>
+                <h1 className="text-2xl font-bold mb-4 text-center text-black">Register</h1>
                 <form onSubmit={handleSubmit} className="space-y-4">
                     {/* Show Backend Error */}
                     {error && (
@@ -70,7 +70,7 @@ const RegisterPage = () => {
                             placeholder="First Name"
                             value={formData.firstName}
                             onChange={handleChange}
-                            className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                            className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 text-black"
                             required
                         />
                     </div>
@@ -84,7 +84,7 @@ const RegisterPage = () => {
                             placeholder="Last Name"
                             value={formData.lastName}
                             onChange={handleChange}
-                            className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                            className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 text-black"
                             required
                         />
                     </div>
@@ -98,7 +98,7 @@ const RegisterPage = () => {
                             placeholder="Email"
                             value={formData.email}
                             onChange={handleChange}
-                            className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                            className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 text-black"
                             required
                         />
                     </div>
@@ -112,7 +112,7 @@ const RegisterPage = () => {
                             placeholder="Password"
                             value={formData.password}
                             onChange={handleChange}
-                            className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                            className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 text-black"
                             required
                         />
                     </div>
@@ -126,7 +126,7 @@ const RegisterPage = () => {
                             placeholder="Phone Number"
                             value={formData.phoneNumber}
                             onChange={handleChange}
-                            className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                            className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 text-black"
                         />
                     </div>
                     <div>
@@ -138,7 +138,7 @@ const RegisterPage = () => {
                             name="birthDate"
                             value={formData.birthDate}
                             onChange={handleChange}
-                            className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                            className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 text-black"
                         />
                     </div>
                     <button

@@ -14,37 +14,34 @@ const Navbar = () => {
     };
 
     return (
-        <nav style={{ padding: "1rem", backgroundColor: "#f8f9fa" }}>
-            <ul style={{ display: "flex", gap: "1rem", listStyle: "none" ,color:"black"}}>
-                <li>
-                    <Link href="/">Home</Link>
-                </li>
-                <li>
-                <Link href="/auth/login">Login</Link>
-
-                </li>
-            <li> <Link href="/mfa/enable-2fa">Enable 2FA</Link> </li>
-                    
-                    <li><Link href="/mfa/verify-2fa">Verify 2FA</Link> </li>
-
-                    
-
-
-                <li>
-                    <Link href="/auth/register">Register</Link>
-                </li>
-                <li>
-                    <Link href="/transactions">Transactions</Link>
-                </li>
-                <li>
-                    <Link href="/analysis">Analysis</Link>
-                </li>
-                <li>
-                    <button onClick={handleLogout} style={{ cursor: "pointer" }}>
-                        Logout
-                    </button>
-                </li>
-            </ul>
+        <nav className="bg-white shadow-md">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="flex justify-between items-center h-16">
+                    <div className="text-2xl font-bold text-gray-800">
+                        <Link href="/">Finance Tracker</Link>&nbsp;
+                    </div>
+                    <div className="hidden md:flex space-x-4">
+                        <Link href="/auth/login" className="text-gray-600 hover:text-blue-600 transition duration-200">
+                            Login
+                        </Link>
+                        <Link href="/auth/register" className="text-gray-600 hover:text-blue-600 transition duration-200">
+                            Register
+                        </Link>
+                        <Link href="/auth/transactions" className="text-gray-600 hover:text-blue-600 transition duration-200">
+                            Transactions
+                        </Link>
+                        <Link href="/auth/analysis" className="text-gray-600 hover:text-blue-600 transition duration-200">
+                            Analysis
+                        </Link>
+                        <Link href="/auth/authorization" className="text-gray-600 hover:text-blue-600 transition duration-200">
+                            Authorization
+                        </Link>
+                        <button onClick={handleLogout} className="text-gray-600 hover:text-red-600 transition duration-200">
+                            Logout
+                        </button>
+                    </div>
+                </div>
+            </div>
         </nav>
     );
 };
