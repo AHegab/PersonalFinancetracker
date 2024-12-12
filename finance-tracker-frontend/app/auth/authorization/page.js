@@ -21,6 +21,18 @@ const Authorization = () => {
                     <Link href="/password/forgot-password" className="block text-center bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-200">
                         Forgot password
                     </Link>
+                    <Link href="profiles/findall-profiles" className="block text-center bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-200">
+                        Find All Users
+                    </Link>
+                    <Link href="/profiles/find-profile-email" className="block text-center bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-200">
+                        Find User By Email
+                    </Link>
+                    <Link href="/profiles/find-profile-id" className="block text-center bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-200">
+                        Find User By Id
+                    </Link>
+                    <Link href="/profiles/update-profile" className="block text-center bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-200">
+                        Update User
+                    </Link>
                 </div>
             </div>
         </div>
@@ -29,6 +41,7 @@ const Authorization = () => {
 
 export default Authorization;
 
+//I dont know if we use this link as the front end for the link sent
 {/* <Link href="/password/reset-password" className="block text-center bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-200">
 Reset password
 </Link> */}

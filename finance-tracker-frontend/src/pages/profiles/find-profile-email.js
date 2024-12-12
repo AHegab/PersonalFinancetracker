@@ -1,42 +1,58 @@
-import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
-import { findByEmail } from "../../../services/profileService";
+import { findByEmail } from "../../services/profileService"; // Adjust the import path if needed
 
 const UserByEmailPage = () => {
-    const router = useRouter();
-    const { email } = router.query;
+    const [email, setEmail] = useState("");
     const [user, setUser] = useState(null);
     const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);
 
-    useEffect(() => {
+    const handleSubmit = async (e) => {
+        e.preventDefault();
         if (email) {
-            const fetchUserByEmail = async () => {
-                try {
-                    const fetchedUser = await findByEmail(email);
-                    setUser(fetchedUser);
-                } catch (err) {
-                    setError("User not found.");
-                }
-            };
-            fetchUserByEmail();
+            setLoading(true);
+            try {
+                const fetchedUser = await findByEmail(email);
+                setUser(fetchedUser);
+                setError("");
+            } catch (err) {
+                setError("User not found.");
+            } finally {
+                setLoading(false);
+            }
         }
-    }, [email]);
+    };
 
-    if (error) {
-        return <div>{error}</div>;
+    // Handle loading and error states
+    if (loading) {
+        return <div>Loading...</div>;
     }
 
     return (
         <div>
             <h1>User by Email</h1>
-            {user ? (
+            <form onSubmit={handleSubmit}>
+                <div>
+                    <label htmlFor="email">Enter Email:</label>
+                    <input
+                        type="email"
+                        id="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                    />
+                    <button type="submit">Search</button>
+                </div>
+            </form>
+            {error && <div>{error}</div>}
+            {user && (
                 <div>
                     <p><strong>ID:</strong> {user.id}</p>
-                    <p><strong>Name:</strong> {user.name}</p>
+                    <p><strong>Name:</strong> {user.firstName} {user.lastName}</p>
                     <p><strong>Email:</strong> {user.email}</p>
+                    <p><strong>Phone Number:</strong> {user.phoneNumber}</p>
+                    <p><strong>Birth Date:</strong> {user.birthDate}</p>
                 </div>
-            ) : (
-                <p>Loading...</p>
             )}
         </div>
     );

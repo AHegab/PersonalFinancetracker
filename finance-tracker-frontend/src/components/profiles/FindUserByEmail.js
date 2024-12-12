@@ -1,38 +1,44 @@
-import { useRouter } from "next/router";
 import { useState } from "react";
 import { findById } from "../../services/profileService"; // Adjust the import path if needed
 
 const UserByIdPage = () => {
-    const router = useRouter();
-    const { id } = router.query;
+    const [id, setId] = useState("");
     const [user, setUser] = useState(null);
     const [error, setError] = useState("");
-    const [inputId, setInputId] = useState(id || "");  // Add state to manage input value
+    const [loading, setLoading] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (inputId) {
+        if (id) {
+            setLoading(true);
             try {
-                const fetchedUser = await findById(inputId);  // Use inputId for the API call
+                const fetchedUser = await findById(id);
                 setUser(fetchedUser);
                 setError("");
             } catch (err) {
                 setError("User not found.");
+            } finally {
+                setLoading(false);
             }
         }
     };
+
+    // Handle loading and error states
+    if (loading) {
+        return <div>Loading...</div>;
+    }
 
     return (
         <div>
             <h1>User by ID</h1>
             <form onSubmit={handleSubmit}>
                 <div>
-                    <label htmlFor="id">Enter Id:</label>
+                    <label htmlFor="id">Enter ID:</label>
                     <input
-                        type="text"  // Use type="text" for user input
+                        type="text" // Changed from "id" to "text"
                         id="id"
-                        value={inputId}
-                        onChange={(e) => setInputId(e.target.value)}  // Correctly set inputId state
+                        value={id}
+                        onChange={(e) => setId(e.target.value)} // Changed from setEmail to setId
                         required
                     />
                     <button type="submit">Search</button>

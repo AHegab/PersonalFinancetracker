@@ -9,6 +9,11 @@ const FindUserById = ({ userId }) => {
 
     useEffect(() => {
         const fetchUser = async () => {
+            if (!userId) {
+                setError("User ID is required.");
+                return;
+            }
+
             try {
                 const fetchedUser = await findById(userId);
                 setUser(fetchedUser);
@@ -16,27 +21,32 @@ const FindUserById = ({ userId }) => {
                 setError("User not found.");
             }
         };
+
         fetchUser();
     }, [userId]);
 
     if (error) {
-        return <div>{error}</div>;
+        return (
+            <div className="flex justify-center items-center min-h-screen text-red-500">
+                <p>{error}</p>
+            </div>
+        );
     }
 
     return (
         <div className="flex flex-col items-center justify-center min-h-screen">
-            <h1 className="text-2xl font-bold">User Details</h1>
+            <h1 className="text-2xl font-bold mb-4">User Details</h1>
             {user ? (
-                <div>
+                <div className="text-lg">
                     <p><strong>ID:</strong> {user.id}</p>
-                    <p><strong>firstName:</strong> {user.firstName}</p>
-                    <p><strong>lastName:</strong> {user.lastName}</p>
-                    <p><strong>phoneNumber:</strong> {user.phoneNumber}</p>
-                    <p><strong>birthDate:</strong> {user.birthDate}</p>
+                    <p><strong>First Name:</strong> {user.firstName}</p>
+                    <p><strong>Last Name:</strong> {user.lastName}</p>
+                    <p><strong>Phone Number:</strong> {user.phoneNumber}</p>
+                    <p><strong>Birth Date:</strong> {user.birthDate}</p>
                     <p><strong>Email:</strong> {user.email}</p>
                 </div>
             ) : (
-                <p>Loading...</p>
+                <p>No user found with this ID.</p>
             )}
         </div>
     );
