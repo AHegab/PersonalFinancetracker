@@ -18,8 +18,8 @@ const Authorization = () => {
                     <Link href="/mfa/verify-2fa" className="block text-center bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-200">
                         Verify 2FA
                     </Link>
-                    <Link href="/mfa/request-password-reset" className="block text-center bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-200">
-                        Request password reset
+                    <Link href="/password/forgot-password" className="block text-center bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-200">
+                        Forgot password
                     </Link>
                 </div>
             </div>
@@ -28,3 +28,7 @@ const Authorization = () => {
 };
 
 export default Authorization;
+
+{/* <Link href="/password/reset-password" className="block text-center bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-200">
+Reset password
+</Link> */}
