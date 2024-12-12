@@ -21,7 +21,7 @@ const Authorization = () => {
                     <Link href="/password/forgot-password" className="block text-center bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-200">
                         Forgot password
                     </Link>
-                    <Link href="profiles/findall-profiles" className="block text-center bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-200">
+                    <Link href="/profiles/findall-profiles" className="block text-center bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-200">
                         Find All Users
                     </Link>
                     <Link href="/profiles/find-profile-email" className="block text-center bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-200">
