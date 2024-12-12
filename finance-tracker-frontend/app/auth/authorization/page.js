@@ -7,7 +7,7 @@ const Authorization = () => {
     return (
         <div className="flex justify-center items-center min-h-screen bg-gray-100">
             <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md">
-                <h1 className="text-2xl font-bold mb-4 text-center">Authorization</h1>
+                <h1 className="text-2xl font-bold mb-4 text-center text-black">Authorization</h1>
                 <p className="text-lg text-gray-600 mb-6">
                     This is the Authorization page. You can manage your authorization settings here.
                 </p>
