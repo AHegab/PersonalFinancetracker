@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { forgetPassword } from "../../services/passwordService";
+import { forgotPassword } from "../../services/passwordService";
 
 const ForgotPasswordPage = () => {
     const [email, setEmail] = useState("");
@@ -11,7 +11,7 @@ const ForgotPasswordPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await forgetPassword(email);
+            const response = await forgotPassword(email);
             setMessage(response.message); // Display success message
             setError("");
         } catch (err) {

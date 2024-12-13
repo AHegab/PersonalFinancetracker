@@ -32,15 +32,14 @@ const RegisterPage = () => {
         };
 
         try {
-            console.log("Payload being sent:", payload); // Debugging log
-            await register(payload); // Call the API with JSON payload
-            router.push("/auth/login"); // Redirect to login on success
+            console.log("Sending payload:", payload);
+            await register(payload);
+            router.push("/auth/login");
         } catch (err) {
-            // Handle backend errors
-            if (err.response && err.response.data && err.response.data.message) {
-                setError(err.response.data.message); // Display backend error message
+            if (err.response?.data?.message) {
+                setError(err.response.data.message);
             } else {
-                setError("An unexpected error occurred. Please try again.");
+                setError("Unexpected error occurred.");
             }
         }
     };

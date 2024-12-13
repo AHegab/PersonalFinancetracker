@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-    baseURL: process.env.NEXT_PUBLIC_API_URL, // Use environment variable for backend URL
+    baseURL: process.env.NEXT_PUBLIC_TRANSACTIONS_URL, // Use environment variable for backend URL
     withCredentials: true, // Allow cookies if needed
 });
 

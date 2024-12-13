@@ -13,17 +13,16 @@ const LoginPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const { data } = await login(email, password);
-
-            // Save token to cookies
-            document.cookie = `auth_token=${data.token}; path=/;`;
-
-            // Redirect to another page (e.g., dashboard)
-            router.push("/transactions");
-        } catch (err) {
-            setError("Invalid email or password");
+            const data = await login(email, password);
+            if (data?.token) {
+                router.push("/transactions");
+            } else {
+                setError("Invalid credentials.");
+            }
+        } catch (error) {
+            setError("Failed to login.");
         }
-    };
+      };          
 
     return (
         <div className="flex justify-center items-center min-h-screen bg-gray-100">

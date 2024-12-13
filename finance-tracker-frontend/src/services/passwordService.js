@@ -12,7 +12,7 @@ export const forgotPassword = async (email) => {
         throw new Error("Email is required");
     }
     try {
-        const response = await API.post("/password/forget-password", { email });
+        const response = await API.post("/password/forgot-password", { email });
         return response.data; // Return response data
     } catch (error) {
         console.error("Forget Password Error:", error.response?.data || error.message);
