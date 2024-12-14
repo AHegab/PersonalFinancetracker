@@ -12,17 +12,23 @@ const LoginPage = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        console.log("Attempting to log in with:", { email, password });
+      
         try {
-            const data = await login(email, password);
-            if (data?.token) {
-                router.push("/transactions");
-            } else {
-                setError("Invalid credentials.");
-            }
+          const data = await login(email, password);
+          console.log("Server response:", data);
+      
+          if (data?.token) {
+            console.log("Token received:", data.token);
+            router.push("/transactions");
+          } else {
+            setError("Invalid credentials.");
+          }
         } catch (error) {
-            setError("Failed to login.");
+          console.error("Error during login:", error.response?.data);
+          setError(error.response?.data?.message || "Failed to login.");
         }
-      };          
+      };                         
 
     return (
         <div className="flex justify-center items-center min-h-screen bg-gray-100">
