@@ -27,7 +27,8 @@ app.post('/auth/login', async (req, res) => {
   console.log("Received payload from frontend:", req.body);
 
   try {
-    const { email, password } = req.body;
+    const { email, plainPassword } = req.body;
+    const password = plainPassword;
 
     if (!email || !password) {
       return res.status(400).json({ message: "Missing email or password" });
@@ -58,12 +59,12 @@ app.post('/auth/login', async (req, res) => {
 // Direct API call to register
 app.post('/auth/register', async (req, res) => {
   try {
-    const { data } = req.body;
+    const formData = req.body;
 
     // Forward the request to the external microservice
     const response = await API.post(
       'https://authorizationmicroservice-production.up.railway.app/auth/register',
-      { data },
+      formData,
       { withCredentials: true } // Include cookies if necessary
     );
 

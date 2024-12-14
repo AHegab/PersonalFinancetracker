@@ -11,8 +11,6 @@ const API = axios.create({
 // Register Logic: Check for duplicate emails
 export const register = async (formData) => {
   try {
-      console.log("Sending request to server:", `${process.env.NEXT_PUBLIC_AUTH_URL}/auth/register`);
-
       const response = await axios.post(
         "/auth/register",
         formData,

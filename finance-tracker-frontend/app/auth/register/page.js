@@ -25,7 +25,7 @@ const RegisterPage = () => {
         const payload = {
             data: {
               email: formData.email,
-              password: formData.password,
+              plainPassword: formData.password,
               firstName: formData.firstName,
               lastName: formData.lastName,
               phoneNumber: formData.phoneNumber,
