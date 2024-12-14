@@ -10,7 +10,7 @@ const app = express();
 // CORS Configuration
 app.use(
   cors({
-    origin: ['http://localhost:3000', 'https://authorizationmicroservice-production.up.railway.app'], // Frontend origin
+    origin: ['http://localhost:3000'], // Frontend origin
     methods: ['GET', 'POST'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true, // Include cookies if needed
