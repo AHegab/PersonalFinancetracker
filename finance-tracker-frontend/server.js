@@ -2,7 +2,6 @@ import express from 'express';
 import cors  from 'cors';
 import dotenv from 'dotenv';
 import { login , register , logout , validateToken } from './src/services/authService.js';
-import './db-config.js';
 
 dotenv.config();
 
@@ -11,19 +10,23 @@ const app = express();
 // CORS Configuration
 app.use(
   cors({
-    origin: ['http://localhost:3000' , 'https://authorizationmicroservice-production.up.railway.app'], // Adjust this if your frontend runs elsewhere
-    credentials: true,
+    origin: ['http://localhost:3000'], // Adjust this if your frontend runs elsewhere
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true, 
   })
 );
+
+app.options('*', cors());
 
 // Middleware to parse JSON
 app.use(express.json());
 
 // Handle Login Route
 app.post('/auth/login', async (req, res) => {
-    const { email, password } = req.body;
+    const { email, plainPassword } = req.body;
     try {
-        const result = await login(email, password);
+        const result = await login(email, plainPassword);
 
         if (result?.token) {
             res.cookie("auth_token", result.token, {
@@ -48,7 +51,6 @@ app.post('/auth/register', async (req, res) => {
     try {
       const { data } = req.body;
   
-      // Simulate email existence check
       const userExists = false; // Replace this logic with actual DB lookup
   
       if (userExists) {

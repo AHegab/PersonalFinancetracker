@@ -1,39 +1,31 @@
 import axios from "axios";
 
-const sanitizedAuthURL = process.env.AUTH_URL?.replace(/^"|"$/g, '');
-
-console.log("URL: " , sanitizedAuthURL)
+console.log("URL: " , process.env.NEXT_PUBLIC_AUTH_URL)
 
 const API = axios.create({
-    baseURL: sanitizedAuthURL, // Use environment variable for backend URL
+    baseURL: process.env.NEXT_PUBLIC_AUTH_URL , // Use environment variable for backend URL
     withCredentials: true, // Allow cookies if needed
     timeout: 5000
 });
 
 // Register Logic: Check for duplicate emails
 export const register = async (formData) => {
-    try {
-        console.log("Register request payload:", formData);
-        
-        // Simulate checking if email exists (replace with actual DB check)
-        const emailExists = formData.emailExists; // Replace with DB query e.g. using a User model
-        if (emailExists) {
-            throw new Error("Email already registered.");
-        }
-
-        const response = await API.post("/auth/register", formData);
-        return response.data;
-    } catch (error) {
-        console.error("Error during registration:", error.message);
-        throw new Error(error.response?.data?.message || "Failed to register.");
-    }
+  try {
+      console.log("Sending request to server:", `${process.env.NEXT_PUBLIC_AUTH_URL}/auth/register`);
+      const response = await API.post('/auth/register' , formData);
+      console.log("Response: ", response.data);
+      return response.data;
+  } catch (error) {
+      console.error('Error during registration:', error.response?.data || error.message);
+      throw new Error(error.response?.data?.message || "Failed to register.");
+  }
 };
 
 // Login API
-export const login = async (email, password) => {    
+export const login = async (email, password) => {   
     try {
-      console.log("Payload being sent to server:", { email, password });
-      const response = await API.post("/auth/login", { email, password });
+      console.log("Payload being sent to server:", { email, plainPassword: password });
+      const response = await API.post("/auth/login", { email, plainPassword: password });
       
       console.log("Login API Response:", response); // Log the full response
   

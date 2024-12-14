@@ -23,13 +23,15 @@ const RegisterPage = () => {
 
         // Prepare the payload
         const payload = {
-            email: formData.email,
-            plainPassword: formData.password, // Match backend expectations
-            firstName: formData.firstName,
-            lastName: formData.lastName,
-            phoneNumber: formData.phoneNumber,
-            birthDay: formData.birthDate, // Backend expects "birthDay"
-        };
+            data: {
+              email: formData.email,
+              plainPassword: formData.password,
+              firstName: formData.firstName,
+              lastName: formData.lastName,
+              phoneNumber: formData.phoneNumber,
+              birthDay: formData.birthDate,
+            }
+          };
 
         try {
             console.log("Sending payload:", payload);
