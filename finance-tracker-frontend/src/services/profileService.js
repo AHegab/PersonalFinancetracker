@@ -8,7 +8,7 @@ const API = axios.create({
 // Fetch User by ID API
 export const findById = async (id) => {
     try {
-        const response = await API.get(`/auth/user/${id}`);
+        const response = await API.get(`/profile/${id}`);
         return response.data;
     } catch (error) {
         console.error("Find User by ID Error:", error.response?.data || error.message);
@@ -18,36 +18,10 @@ export const findById = async (id) => {
     }
 };
 
-// Fetch All Users API
-export const findAll = async () => {
-    try {
-        const response = await API.get('/auth/users');
-        return response.data;
-    } catch (error) {
-        console.error("Find All Users Error:", error.response?.data || error.message);
-        throw new Error(
-            error.response?.data?.message || "Failed to fetch all users."
-        );
-    }
-};
-
-// Fetch User by Email API
-export const findByEmail = async (email) => {
-    try {
-        const response = await API.get(`/auth/user/email/${email}`);
-        return response.data;
-    } catch (error) {
-        console.error("Find User by Email Error:", error.response?.data || error.message);
-        throw new Error(
-            error.response?.data?.message || "Failed to fetch user by email."
-        );
-    }
-};
-
 // Update User API
 export const updateUser = async (id, formData) => {
     try {
-        const response = await API.put(`/auth/update/${id}`, formData); // Assuming ID-based update
+        const response = await API.put(`/profile/update/${id}`, formData); // Assuming ID-based update
         return response.data;
     } catch (error) {
         console.error("Update User Error:", error.response?.data || error.message);

@@ -11,42 +11,27 @@ const API = axios.create({
 
 // Enable 2FA: Fetch QR code and secret
 export const enable2FA = async () => {
-    try {
-        // Retrieve the token from cookies
-        const token = Cookies.get("auth_token");
-        if (!token) {
-            throw new Error("Authentication token is missing.");
-        }
-
-        console.log("Token being sent:", token); // Log token for debugging
-
-        // Make the POST request
-        const response = await API.post(
-            "/mfa/enable",
-            {}, // No payload is required for enabling 2FA
-            {
-                headers: {
-                    Authorization: `Bearer ${token}`, // Pass token in headers
-                },
-            }
-        );
-
-        console.log("Enable 2FA response:", response.data); // Log the response for debugging
-        return response.data; // Contains qrCodeUrl and secret
-    } catch (error) {
-        // Log detailed error information
-        console.error("Enable 2FA Error:", error.response?.data || error.message);
-
-        // Show more helpful error details for debugging
-        console.error("Full error details:", error);
-
-        // Rethrow the error with a descriptive message
-        throw new Error(
-            error.response?.data?.message || "Failed to enable 2FA. Check your request."
-        );
+    const token = localStorage.getItem("PersonalFinanceTracker");
+  
+    if (!token) {
+      alert("You must log in before enabling 2FA.");
+      console.error("No token found in localStorage.");
+      return;
     }
-};
-
+  
+    try {
+      const response = await axios.post('/mfa/enable', {}, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+  
+      console.log("Response from server:", response.data);
+      return response.data;
+    } catch (error) {
+      console.error("Server response error:", error.response);
+      throw new Error(error.response?.data?.message || "Failed to enable 2FA");
+    }
+  };  
+   
 
 // Verify 2FA: Verify OTP
 export const verify2FA = async (otp) => {
@@ -82,4 +67,3 @@ export const verify2FA = async (otp) => {
 };
 
 // Disable 2FA
-

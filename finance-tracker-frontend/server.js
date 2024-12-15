@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import axios from 'axios';
+import jwt from 'jsonwebtoken';
 
 dotenv.config();
 
@@ -11,7 +11,7 @@ const app = express();
 app.use(
   cors({
     origin: ['http://localhost:3000'], // Frontend origin
-    methods: ['GET', 'POST'],
+    methods: ['GET', 'POST' , 'PUT'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true, // Include cookies if needed
   })
@@ -74,6 +74,85 @@ app.post('/auth/register', async (req, res) => {
     console.error("Register error:", error.message);
     const status = error.response?.status || 500;
     res.status(status).json(error.response?.data || { message: "An error occurred" });
+  }
+});
+
+app.post('/auth/logout' , async (req, res) => {
+  try{
+    const response = await API.post(
+      'https://authorizationmicroservice-production.up.railway.app/auth/logout',
+      {},
+      {withCredentials: true}
+    );
+
+    res.status(response.data).json(response.data);
+  } catch(error){
+    console.error("Logout error:", error.response?.data || error.message);
+    const status = error.response?.status || 500;
+    res.status(status).json(error.response?.data || { message: "An error occurred during logout" });
+  }
+});
+
+// Enable 2FA route
+app.post('/mfa/enable', async (req, res) => {
+  try {
+    const authHeader = req.headers.authorization;
+
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return res.status(401).json({ message: "Missing or invalid token" });
+    }
+
+    const token = authHeader.split(" ")[1];
+    console.log("Token received from frontend:", token);
+
+    // Forward request to the actual microservice endpoint
+    const response = await axios.post(
+      'https://authorizationmicroservice-production.up.railway.app/mfa/enable',
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    res.status(200).json(response.data);
+  } catch (error) {
+    console.error("Error during MFA enable:", error.response?.data || error.message);
+    const status = error.response?.status || 500;
+    res.status(status).json({ message: "Error enabling 2FA" });
+  }
+});
+
+// Fetch User by ID
+app.get("/profile/:id", validateToken, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const response = await API.get(
+      `https://authorizationmicroservice-production.up.railway.app/profile/${id}`, 
+      {
+      headers: { Authorization: req.headers.authorization },
+    });
+    res.status(response.status).json(response.data);
+  } catch (error) {
+    res.status(error.response?.status || 500).json(error.response?.data || { message: "Error fetching user by ID" });
+  }
+});
+
+// Update User
+app.put("/profile/update/:id", validateToken, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const formData = req.body;
+    const response = await API.put(
+      `https://authorizationmicroservice-production.up.railway.app/profile/update/${id}`,
+       formData, 
+       {
+      headers: { Authorization: req.headers.authorization },
+    });
+    res.status(response.status).json(response.data);
+  } catch (error) {
+    res.status(error.response?.status || 500).json(error.response?.data || { message: "Error updating user" });
   }
 });
 

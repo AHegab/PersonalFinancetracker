@@ -20,7 +20,7 @@ const LoginPage = () => {
       
           if (data?.token) {
             console.log("Token received:", data.token);
-            router.push("/transactions");
+            router.push("/auth/transactions");
           } else {
             setError("Invalid credentials.");
           }
