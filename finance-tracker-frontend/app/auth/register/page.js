@@ -10,8 +10,7 @@ const RegisterPage = () => {
         password: "",
         firstName: "",
         lastName: "",
-        phoneNumber: "",
-        birthDate: "",
+
     });
 
     const [error, setError] = useState(null); // Error state for backend messages
@@ -27,8 +26,7 @@ const RegisterPage = () => {
             plainPassword: formData.password, // Match backend expectations
             firstName: formData.firstName,
             lastName: formData.lastName,
-            phoneNumber: formData.phoneNumber,
-            birthDay: formData.birthDate, // Backend expects "birthDay"
+     
         };
 
         try {
@@ -116,31 +114,7 @@ const RegisterPage = () => {
                             required
                         />
                     </div>
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700">
-                            Phone Number
-                        </label>
-                        <input
-                            type="tel"
-                            name="phoneNumber"
-                            placeholder="Phone Number"
-                            value={formData.phoneNumber}
-                            onChange={handleChange}
-                            className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 text-black"
-                        />
-                    </div>
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700">
-                            Date of Birth
-                        </label>
-                        <input
-                            type="date"
-                            name="birthDate"
-                            value={formData.birthDate}
-                            onChange={handleChange}
-                            className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 text-black"
-                        />
-                    </div>
+                    
                     <button
                         type="submit"
                         className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"

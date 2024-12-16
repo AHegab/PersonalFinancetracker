@@ -13,17 +13,32 @@ const LoginPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const { data } = await login(email, password);
-
-            // Save token to cookies
-            document.cookie = `auth_token=${data.token}; path=/;`;
-
-            // Redirect to another page (e.g., dashboard)
+            const response = await login(email, password);
+            console.log("Login response:", response);
+    
+            // Extract the token from response.data
+            const token = response?.data?.token;
+    
+            if (!token) {
+                // No token indicates an error occurred
+                setError("Invalid email or password. Please try again.");
+                return;
+            }
+    
+            // Save token to cookies if login is successful
+            document.cookie = `auth_token=${token}; path=/;`;
+    
+            // Redirect to the transactions page
             router.push("/transactions");
         } catch (err) {
-            setError("Invalid email or password");
+            console.error(err);
+            // Handle any errors that occur during the request
+            setError(
+                err.response?.data?.message || "Something went wrong. Please try again."
+            );
         }
     };
+    
 
     return (
         <div className="flex justify-center items-center min-h-screen bg-gray-100">
@@ -61,7 +76,10 @@ const LoginPage = () => {
                     </button>
                 </form>
                 <p className="mt-4 text-center text-sm text-gray-600">
-                    Don't have an account? <a href="/auth/register" className="text-blue-600 hover:underline">Register here</a>
+                    Don't have an account?{" "}
+                    <a href="/auth/register" className="text-blue-600 hover:underline">
+                        Register here
+                    </a>
                 </p>
             </div>
         </div>
