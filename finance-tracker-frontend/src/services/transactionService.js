@@ -6,17 +6,17 @@ const API = axios.create({
 });
 
 // Add a transaction
-export const addTransaction = async (createDto, userId) => {
+export const addTransaction = async (transactionData, userId) => {
     try {
-        const response = await API.post('/transactions/add-transaction', { createDto, userId });
-        return response.data;
+      const response = await API.post('/transactions/create', { transactionData, userId });
+      return response.data;
     } catch (error) {
-        console.error("Add Transaction Error:", error.response?.data || error.message);
-        throw new Error(
-            error.response?.data?.message || "Failed to add transaction."
-        );
+      console.error("Add Transaction Error:", error.response?.data || error.message);
+      throw new Error(
+        error.response?.data?.message || "Failed to add transaction."
+      );
     }
-};
+  };  
 
 // Get all transactions
 export const getAllTransactions = async () => {

@@ -1,22 +1,31 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { enable2FA } from "../../../src/services/mfaService";
 import { findById, updateUser } from "../../../src/services/profileService";
+import { useRouter } from "next/navigation";
 
 const Authorization = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [result, setResult] = useState(null);
+  const router = useRouter();
+
+  useEffect(() => {
+    const token = sessionStorage.getItem("PersonalFinanceTracker");
+    if (!token) {
+      alert("Log in to access the Authorization Page");
+      router.push("/auth/login");
+    }
+  }, [router]);
 
   const handleEnable2FA = async () => {
     setLoading(true);
     setError(null);
 
     try {
-      const { qrCodeUrl, secret } = await enable2FA();
+      const { qrCodeUrl } = await enable2FA();
       console.log("QR Code URL:", qrCodeUrl);
-      console.log("Secret:", secret);
 
       alert("2FA setup started! Scan the QR code to proceed.");
     } catch (error) {

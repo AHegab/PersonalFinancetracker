@@ -11,7 +11,7 @@ const app = express();
 app.use(
   cors({
     origin: ['http://localhost:3000'], // Frontend origin
-    methods: ['GET', 'POST' , 'PUT'],
+    methods: ['GET', 'POST' , 'PUT' , 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true, // Include cookies if needed
   })
@@ -21,6 +21,20 @@ app.options('*', cors()); // Handle preflight requests
 
 // Middleware to parse JSON
 app.use(express.json());
+
+const validateToken = (req , res , next) => {
+  const authHeader = req.headers.authorization;
+  if(!authHeader || !authHeader.startsWith("Bearer ")){
+    return res.status(401).json({message: "Unauthorized: Token is missing"});
+  }
+
+  const token = authHeader.split(" ")[1];
+  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+    if (err) return res.status(401).json({ message: "Unauthorized: Invalid token" });
+    req.user = decoded;
+    next();
+  });
+}
 
 // Direct API call to login
 app.post('/auth/login', async (req, res) => {
@@ -94,7 +108,7 @@ app.post('/auth/logout' , async (req, res) => {
 });
 
 // Enable 2FA route
-app.post('/mfa/enable', async (req, res) => {
+app.post('/mfa/enable', validateToken , async (req, res) => {
   try {
     const authHeader = req.headers.authorization;
 
@@ -153,6 +167,30 @@ app.put("/profile/update/:id", validateToken, async (req, res) => {
     res.status(response.status).json(response.data);
   } catch (error) {
     res.status(error.response?.status || 500).json(error.response?.data || { message: "Error updating user" });
+  }
+});
+
+app.post("/transactions/add-transaction", validateToken, async (req, res) => {
+  try {
+    const { userId, transactionData } = req.body;
+
+    if (!userId || !transactionData) {
+      return res.status(400).json({ message: "Missing userId or transactionData." });
+    }
+
+    // Forward the request to the transaction service
+    const response = await API.post(
+      `https://magnificent-embrace-production-72e0.up.railway.app/transactions/create`,
+      { userId, transactionData },
+      { headers: { Authorization: req.headers.authorization } }
+    );
+
+    res.status(response.status).json(response.data);
+  } catch (error) {
+    console.error("Add Transaction Error:", error.response?.data || error.message);
+    res.status(error.response?.status || 500).json(
+      error.response?.data || { message: "Failed to add transaction." }
+    );
   }
 });
 

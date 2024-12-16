@@ -12,22 +12,22 @@ const LogoutPage = () => {
 
     useEffect(() => {
         const performLogout = async () => {
-            try {
-                await logout(); // Call the logout service
-                setMessage("You have been logged out successfully.");
-                setLoading(false);
-                setTimeout(() => {
-                    router.push("/auth/login"); // Redirect to the login page after a short delay
-                }, 2000); // Adjust the delay as necessary
-            } catch (err) {
-                console.error("Logout Error:", err.message);
-                setError("Failed to logout. Please try again.");
-                setLoading(false);
-            }
+          try {
+            await logout();
+            sessionStorage.clear();
+            setMessage("You have been logged out successfully.");
+          } catch (error) {
+            setError(error.message || "Failed to logout.");
+          } finally {
+            setLoading(false);
+            setTimeout(() => {
+              router.push("/auth/login"); // Redirect after delay
+            }, 1000); // 1-second delay
+          }
         };
-
+      
         performLogout();
-    }, [router]);
+      }, [router]);      
 
     return (
         <div className="flex justify-center items-center min-h-screen bg-gray-100">

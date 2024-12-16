@@ -19,7 +19,7 @@ const LoginPage = () => {
           console.log("Server response:", data);
       
           if (data?.token) {
-            console.log("Token received:", data.token);
+            sessionStorage.setItem("PersonalFinanceTracker" , data.token)
             router.push("/auth/transactions");
           } else {
             setError("Invalid credentials.");
