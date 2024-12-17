@@ -15,30 +15,31 @@ const LoginPage = () => {
         try {
             const response = await login(email, password);
             console.log("Login response:", response);
-    
-            // Extract the token from response.data
-            const token = response?.data?.token;
-    
+
+            // Extract data
+            const { token, twoFactorRequired } = response?.data || {};
+
             if (!token) {
-                // No token indicates an error occurred
                 setError("Invalid email or password. Please try again.");
                 return;
             }
-    
-            // Save token to cookies if login is successful
+
+            // Save token to cookies
             document.cookie = `auth_token=${token}; path=/;`;
-    
-            // Redirect to the transactions page
-            router.push("/transactions");
+
+            // Redirect based on 2FA status
+            if (twoFactorRequired) {
+                router.push("/mfa/verify-2fa");
+            } else {
+                router.push("/mfa/enable-2fa");
+            }
         } catch (err) {
             console.error(err);
-            // Handle any errors that occur during the request
             setError(
                 err.response?.data?.message || "Something went wrong. Please try again."
             );
         }
     };
-    
 
     return (
         <div className="flex justify-center items-center min-h-screen bg-gray-100">
@@ -79,6 +80,11 @@ const LoginPage = () => {
                     Don't have an account?{" "}
                     <a href="/auth/register" className="text-blue-600 hover:underline">
                         Register here
+                    </a>
+                </p>
+                <p className="mt-2 text-center text-sm">
+                    <a href="/password/forgot-password" className="text-blue-600 hover:underline">
+                        Forgot Password?
                     </a>
                 </p>
             </div>

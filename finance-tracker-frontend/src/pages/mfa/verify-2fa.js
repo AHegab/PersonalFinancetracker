@@ -1,69 +1,89 @@
 "use client";
 
 import React, { useState } from "react";
-import { useRouter } from "next/navigation"; // Import useRouter for redirection
+import { useRouter } from "next/navigation";
 import { verify2FA } from "../../services/mfaService";
 
 const Verify2FA = () => {
-    const [otp, setOtp] = useState(""); // OTP input state
-    const [message, setMessage] = useState(""); // Success message
-    const [error, setError] = useState(""); // Error state
-    const router = useRouter(); // Router instance for navigation
+    const [otp, setOtp] = useState("");
+    const [message, setMessage] = useState("");
+    const [error, setError] = useState("");
+    const router = useRouter();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setMessage(""); // Reset messages
+        setMessage("");
         setError("");
 
         try {
-            const response = await verify2FA(otp); // Call verify service
+            const response = await verify2FA(otp); // Replace with actual API call
             setMessage("2FA verification successful!");
 
-            // Redirect to the home page after a short delay
             setTimeout(() => {
-                router.push("/"); // Redirect to home
-            }, 1000); // Optional delay for user feedback
+                router.push("/profile"); // Redirect to home after verification
+            }, 1000);
         } catch (err) {
             setError(err.message || "Failed to verify OTP.");
         }
     };
 
     return (
-        <div className="flex justify-center items-center min-h-screen bg-gray-100">
-            <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md">
-                <h1 className="text-2xl font-bold mb-4 text-center">Verify 2FA</h1>
-                <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-blue-50 to-blue-200">
+            <div className="bg-white shadow-2xl rounded-xl p-8 w-full max-w-lg transform transition duration-300 hover:scale-105">
+                <div className="text-center mb-6">
+                    <h1 className="text-4xl font-extrabold text-gray-800">2FA Verification</h1>
+                    <p className="text-gray-500 mt-2">
+                        Enter the one-time password (OTP) sent to your device
+                    </p>
+                </div>
+
+                <form onSubmit={handleSubmit} className="space-y-6">
                     {message && (
-                        <p className="text-green-500 text-sm font-medium text-center">
+                        <div className="text-green-600 text-sm font-medium text-center bg-green-100 p-2 rounded">
                             {message}
-                        </p>
+                        </div>
                     )}
                     {error && (
-                        <p className="text-red-500 text-sm font-medium text-center">
+                        <div className="text-red-600 text-sm font-medium text-center bg-red-100 p-2 rounded">
                             {error}
-                        </p>
+                        </div>
                     )}
+
                     <div>
-                        <label className="block text-sm font-medium text-gray-700">
-                            OTP
+                        <label
+                            htmlFor="otp"
+                            className="block text-sm font-medium text-gray-700 mb-2"
+                        >
+                            One-Time Password (OTP)
                         </label>
                         <input
+                            id="otp"
                             type="text"
-                            name="otp"
-                            placeholder="Enter OTP"
+                            placeholder="Enter your OTP"
                             value={otp}
                             onChange={(e) => setOtp(e.target.value)}
-                            className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                            className="block w-full px-4 py-3 text-gray-700 bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
                             required
                         />
                     </div>
+
                     <button
                         type="submit"
-                        className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
+                        className="w-full py-3 text-lg font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition duration-300 shadow-md"
                     >
-                        Verify 2FA
+                        Verify OTP
                     </button>
                 </form>
+
+                <div className="text-center mt-6 text-gray-600 text-sm">
+                    Didn’t receive the OTP?{" "}
+                    <a
+                        href="/resend-otp"
+                        className="text-blue-600 hover:underline font-semibold"
+                    >
+                        Resend OTP
+                    </a>
+                </div>
             </div>
         </div>
     );

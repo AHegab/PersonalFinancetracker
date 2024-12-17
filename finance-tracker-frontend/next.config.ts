@@ -1,7 +1,12 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
-  /* config options here */
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  productionBrowserSourceMaps: false, // Disable source maps in production
+  webpack(config: any, { dev }: { dev: boolean }) {
+      if (dev) {
+          config.devtool = false; // Disable source maps in development
+      }
+      return config;
+  },
 };
 
-export default nextConfig;
+module.exports = nextConfig;

@@ -5,49 +5,44 @@ const API = axios.create({
     withCredentials: true, // Allow cookies if needed
 });
 
-// Fetch User by ID API
-export const findById = async (id) => {
+// Fetch User Profile API
+export const findById = async (token) => {
     try {
-        const response = await API.get(`/auth/user/${id}`);
+        const response = await API.get(`/profile`, {
+            headers: { Authorization: `Bearer ${token}` },
+        });
         return response.data;
     } catch (error) {
-        console.error("Find User by ID Error:", error.response?.data || error.message);
+        console.error("Find User Error:", error.response?.data || error.message);
         throw new Error(
-            error.response?.data?.message || "Failed to fetch user details by ID."
+            error.response?.data?.message || "Failed to fetch user profile."
         );
     }
 };
 
-// Fetch All Users API
-export const findAll = async () => {
+// Update User Budgets API
+export const updateBudgets = async (budgets, token) => {
     try {
-        const response = await API.get('/auth/users');
+        const response = await API.patch(`/profile/budgets`, budgets, {
+            headers: { Authorization: `Bearer ${token}` },
+        });
+        
         return response.data;
     } catch (error) {
-        console.error("Find All Users Error:", error.response?.data || error.message);
+        console.error("Update Budgets Error:", error.response?.data || error.message);
         throw new Error(
-            error.response?.data?.message || "Failed to fetch all users."
-        );
-    }
-};
-
-// Fetch User by Email API
-export const findByEmail = async (email) => {
-    try {
-        const response = await API.get(`/auth/user/email/${email}`);
-        return response.data;
-    } catch (error) {
-        console.error("Find User by Email Error:", error.response?.data || error.message);
-        throw new Error(
-            error.response?.data?.message || "Failed to fetch user by email."
+            error.response?.data?.message || "Failed to update user budgets."
         );
     }
 };
 
 // Update User API
-export const updateUser = async (id, formData) => {
+export const updateUser = async (formData, token) => {
     try {
-        const response = await API.put(`/auth/update/${id}`, formData); // Assuming ID-based update
+        const response = await API.patch(`/profile/update`, formData, {
+            headers: { Authorization: `Bearer ${token}` },
+        });
+        console.log("Update Budgets Response:", response.data);
         return response.data;
     } catch (error) {
         console.error("Update User Error:", error.response?.data || error.message);
