@@ -31,35 +31,35 @@ const Navbar = () => {
             <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
                 <div className="flex justify-between items-center h-16">
                     {/* Logo */}
-                    <div className="text-3xl font-bold text-white hover:text-gray-300 transition duration-300">
+                    <div className="text-3xl font-bold text-white hover:text-gray-300 transition duration-300 px-4">
                         <Link href="/">Finance Tracker</Link>
                     </div>
 
                     {/* Desktop Links */}
-                    <div className="hidden md:flex items-center space-x-8">
+                    <div className="hidden md:flex items-center space-x-12">
                         {isLoggedIn ? (
                             <>
                                 <Link
                                     href="/transactions"
-                                    className="text-gray-300 hover:text-blue-400 transition duration-300"
-                                >
+                                    className="text-white hover:text-blue-400 transition duration-300p x-4"
+                                    >
                                     Transactions
                                 </Link>
                                 <Link
                                     href="/analysis"
-                                    className="text-gray-300 hover:text-blue-400 transition duration-300"
+                                    className="text-white hover:text-blue-400 transition duration-300 px-4"
                                 >
                                     Analysis
                                 </Link>
                                 <Link
                                     href="/profile"
-                                    className="text-gray-300 hover:text-blue-400 transition duration-300"
+                                    className="text-white hover:text-blue-400 transition duration-300 px-4"
                                 >
                                     Profile
                                 </Link>
                                 <button
                                     onClick={handleLogout}
-                                    className="text-white bg-red-500 hover:bg-red-700 px-4 py-2 rounded-full transition duration-300"
+                                    className="text-white bg-red-500 hover:bg-red-700 px-4 py-2 rounded-full transition duration-300 px-4"
                                 >
                                     Logout
                                 </button>
@@ -67,7 +67,7 @@ const Navbar = () => {
                         ) : (
                             <Link
                                 href="/auth/login"
-                                className="text-white bg-blue-500 hover:bg-blue-700 px-4 py-2 rounded-full transition duration-300"
+                                className="text-white bg-blue-500 hover:bg-blue-700 px-4 py-2 rounded-full transition duration-300 px-4"
                             >
                                 Login
                             </Link>
