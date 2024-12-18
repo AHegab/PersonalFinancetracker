@@ -21,27 +21,29 @@ const Analysis = () => {
         setError(null);
         setResult(null);
         setImages([]);
-    
+        setLoading(true);
+
         const token = Cookies.get("auth_token");
-    
+
         try {
             const response = await analyzeBudget(token);
-            console.log("API Response:", response); // Debugging
-    
+            console.log("API Response:", response);
+
             // Map the correct keys
             const { analysis, images } = response;
-    
+
             setResult(analysis);
-    
+
             // Extract base64 image URLs
             const imageOutputs = Object.values(images);
             setImages(imageOutputs);
-    
+
         } catch (err) {
             setError(err.message);
+        } finally {
+            setLoading(false);
         }
     };
-    
 
     return (
         <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 p-6">
@@ -53,7 +55,7 @@ const Analysis = () => {
                 onClick={handleSubmit}
                 className="mb-6 bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 transition"
             >
-                {loading ? "Loading..." : "Analyze Budget"}
+                {loading ? "Loading..." : "Analyze Budget"} {/* Change button text based on loading state */}
             </button>
 
             {/* Empty State */}
@@ -102,21 +104,19 @@ const Analysis = () => {
             )}
 
             {/* Display Images */}
-            {/* Display Images */}
-                {images.length > 0 && (
-                    <div className="w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 gap-4">
-                        {images.map((src, index) => (
-                            <div key={index} className="shadow-lg rounded-lg overflow-hidden">
-                                <img
-                                    src={`data:image/png;base64,${src}`}
-                                    alt={`Visualization ${index + 1}`}
-                                    className="w-full h-auto"
-                                />
-                            </div>
-                        ))}
-                    </div>
-                )}
-
+            {images.length > 0 && (
+                <div className="w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {images.map((src, index) => (
+                        <div key={index} className=" shadow-lg rounded-lg overflow-hidden">
+                            <img
+                                src={`data:image/png;base64,${src}`}
+                                alt={`Visualization ${index + 1}`}
+                                className="w-full h-auto"
+                            />
+                        </div>
+                    ))}
+                </div>
+            )}
         </div>
     );
 };
