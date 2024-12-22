@@ -219,6 +219,7 @@ const TransactionsPage = () => {
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <input
                         type="number"
+                        name='amount'
                         placeholder="Amount"
                         value={formData.amount}
                         onChange={(e) =>
@@ -229,6 +230,7 @@ const TransactionsPage = () => {
                     />
                     <input
                         type="text"
+                        name='vendorName'
                         placeholder="Vendor Name"
                         value={formData.vendorName}
                         onChange={(e) =>
@@ -239,6 +241,7 @@ const TransactionsPage = () => {
                     />
                     <input
                         type="text"
+                        name='category'
                         placeholder="Category"
                         value={formData.category}
                         onChange={(e) =>
@@ -248,6 +251,7 @@ const TransactionsPage = () => {
                     />
                     <input
                         type="date"
+                        name='transactionDate'
                         value={formData.transactionDate}
                         onChange={(e) =>
                             setFormData({
@@ -260,6 +264,7 @@ const TransactionsPage = () => {
                     />
                     <select
                         value={formData.paymentMethod}
+                        name='paymentMethod'
                         onChange={(e) =>
                             setFormData({
                                 ...formData,
@@ -279,6 +284,7 @@ const TransactionsPage = () => {
                     ) && (
                         <input
                             type="text"
+                            name='cardLastFourDigits'
                             placeholder="Last 4 Digits"
                             maxLength="4"
                             value={formData.cardLastFourDigits}
@@ -293,6 +299,7 @@ const TransactionsPage = () => {
                     )}
                     <textarea
                         placeholder="Notes"
+                        name='notes'
                         value={formData.notes}
                         onChange={(e) =>
                             setFormData({ ...formData, notes: e.target.value })

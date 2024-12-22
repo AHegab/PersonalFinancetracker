@@ -18,7 +18,7 @@ export const register = async (formData) => {
 };
 
 // Login API
-export const login = (email, password) =>
+export const login = (email, password) => 
     API.post("/auth/login", { email, password });
 
 
