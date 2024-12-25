@@ -24,7 +24,7 @@ export const analyzeBudget = async (token) => {
     } catch (error) {
         console.error("Analyze Budget Error:", error.response?.data || error.message);
         throw new Error(
-            error.response?.data?.error || "Failed to analyze budget. Check your inputs."
+            error.response?.data?.error || "Failed to analyze budget. please make sure you have added more than 8 transactions."
         );
     }
 };

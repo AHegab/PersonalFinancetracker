@@ -46,6 +46,8 @@ const Analysis = () => {
     };
 
     return (
+        <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 p-6 text-black">
+
         <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 p-6">
             <h1 className="text-3xl font-bold mb-6 text-black">Budget Analysis</h1>
 
@@ -58,6 +60,8 @@ const Analysis = () => {
                 {loading ? "Loading..." : "Analyze Budget"} {/* Change button text based on loading state */}
             </button>
 
+            
+
             {/* Empty State */}
             {!loading && result === null && (
                 <p className="text-gray-500">No analysis available. Click "Analyze Budget" to start.</p>
@@ -65,6 +69,7 @@ const Analysis = () => {
 
             {/* Display Result Table */}
             {result && Array.isArray(result) && (
+                
                 <div className="overflow-x-auto w-full max-w-4xl mb-8">
                     <table className="w-full text-left border-collapse bg-white shadow-md rounded-lg">
                         <thead>
@@ -118,6 +123,7 @@ const Analysis = () => {
                 </div>
             )}
         </div>
+    </div>
     );
 };
 
