@@ -1,13 +1,14 @@
-"use client";
-
+// File: app/analysis/page.js
+"use client"
 import React, { useState } from "react";
+import Image from "next/image";
 import { analyzeBudget } from "../../src/services/analysisService";
 import Cookies from "js-cookie";
 
 const formatCurrency = (value) =>
     new Intl.NumberFormat("en-US", {
         style: "currency",
-        currency: "USD",
+        currency: "EGP",
     }).format(value);
 
 const Analysis = () => {
@@ -27,17 +28,9 @@ const Analysis = () => {
 
         try {
             const response = await analyzeBudget(token);
-            console.log("API Response:", response);
-
-            // Map the correct keys
             const { analysis, images } = response;
-
             setResult(analysis);
-
-            // Extract base64 image URLs
-            const imageOutputs = Object.values(images);
-            setImages(imageOutputs);
-
+            setImages(Object.values(images));
         } catch (err) {
             setError(err.message);
         } finally {
@@ -47,8 +40,6 @@ const Analysis = () => {
 
     return (
         <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 p-6 text-black">
-
-        <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 p-6">
             <h1 className="text-3xl font-bold mb-6 text-black">Budget Analysis</h1>
 
             {error && <p className="text-red-500 mb-4">{error}</p>}
@@ -57,19 +48,14 @@ const Analysis = () => {
                 onClick={handleSubmit}
                 className="mb-6 bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 transition"
             >
-                {loading ? "Loading..." : "Analyze Budget"} {/* Change button text based on loading state */}
+                {loading ? "Loading..." : "Analyze Budget"}
             </button>
 
-            
-
-            {/* Empty State */}
             {!loading && result === null && (
-                <p className="text-gray-500">No analysis available. Click "Analyze Budget" to start.</p>
+                <p className="text-gray-500">No analysis available. Click &quot;Analyze Budget&quot; to start. You need more than 8 transactions.</p>
             )}
 
-            {/* Display Result Table */}
             {result && Array.isArray(result) && (
-                
                 <div className="overflow-x-auto w-full max-w-4xl mb-8">
                     <table className="w-full text-left border-collapse bg-white shadow-md rounded-lg">
                         <thead>
@@ -92,9 +78,7 @@ const Analysis = () => {
                                     <td className="p-2 border text-center">{formatCurrency(item["Budget"])}</td>
                                     <td className="p-2 border text-center">{formatCurrency(item["Recommended Budget"])}</td>
                                     <td
-                                        className={`p-2 border text-center ${
-                                            item["Budget Difference"] > 0 ? "text-red-500" : "text-green-500"
-                                        }`}
+                                        className={`p-2 border text-center ${item["Budget Difference"] > 0 ? "text-red-500" : "text-green-500"}`}
                                     >
                                         {formatCurrency(item["Budget Difference"])}
                                     </td>
@@ -108,14 +92,15 @@ const Analysis = () => {
                 </div>
             )}
 
-            {/* Display Images */}
             {images.length > 0 && (
                 <div className="w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 gap-4">
                     {images.map((src, index) => (
-                        <div key={index} className=" shadow-lg rounded-lg overflow-hidden">
-                            <img
+                        <div key={index} className="shadow-lg rounded-lg overflow-hidden">
+                            <Image
                                 src={`data:image/png;base64,${src}`}
                                 alt={`Visualization ${index + 1}`}
+                                width={500}
+                                height={300}
                                 className="w-full h-auto"
                             />
                         </div>
@@ -123,7 +108,6 @@ const Analysis = () => {
                 </div>
             )}
         </div>
-    </div>
     );
 };
 

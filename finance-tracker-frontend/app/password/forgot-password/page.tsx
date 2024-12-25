@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { forgotPassword } from "../../services/passwordService";
+import { forgotPassword } from "../../../src/services/passwordService";
 
 const ForgotPassword = () => {
     const [email, setEmail] = useState("");
@@ -22,6 +22,8 @@ const ForgotPassword = () => {
     };
 
     return (
+        <div className="flex justify-center items-center min-h-screen bg-gray-100 text-black">
+
         <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-6">
             <h1 className="text-3xl font-bold mb-4">Forgot Password</h1>
             <form onSubmit={handleSubmit} className="w-full max-w-md bg-white p-6 rounded-lg shadow-md">
@@ -47,6 +49,8 @@ const ForgotPassword = () => {
 
             {successMessage && <p className="text-green-500 mt-4">{successMessage}</p>}
             {errorMessage && <p className="text-red-500 mt-4">{errorMessage}</p>}
+        </div>
+
         </div>
     );
 };

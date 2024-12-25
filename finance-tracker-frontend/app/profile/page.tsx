@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import Modal from "react-modal";
@@ -13,8 +13,20 @@ const formatCurrency = (value: number) => `$${value.toLocaleString()}`;
 
 Modal.setAppElement("body");
 
+// Define the UserProfile type
+interface UserProfile {
+    firstName: string;
+    middleName: string;
+    lastName: string;
+    phoneNumber?: string;
+    birthDay?: string;
+    email: string;
+    isTwoFactorEnabled: boolean;
+    budgets?: { budgets: Record<string, number> };
+}
+
 const ProfilePage = () => {
-    const [profile, setProfile] = useState<any>(null);
+    const [profile, setProfile] = useState<UserProfile | null>(null);
     const [loading, setLoading] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -29,11 +41,10 @@ const ProfilePage = () => {
 
     // Store budgets as array of { category, amount }
     const [budgetItems, setBudgetItems] = useState<Array<{ category: string; amount: number }>>([]);
-
     const router = useRouter();
 
     // Fetch user profile
-    const fetchProfile = async () => {
+    const fetchProfile = useCallback(async () => {
         const token = Cookies.get("auth_token");
         try {
             const userData = await findById(token);
@@ -61,11 +72,11 @@ const ProfilePage = () => {
         } finally {
             setLoading(false);
         }
-    };
+    }, [router]);
 
     useEffect(() => {
         fetchProfile();
-    }, []);
+    }, [fetchProfile]);
 
     // Modal open/close
     const openModal = () => setIsModalOpen(true);
@@ -164,29 +175,29 @@ const ProfilePage = () => {
 
                         <div>
                             <span className="font-semibold text-black">First Name:</span>{" "}
-                            {profile.firstName || "N/A"}
+                            {profile?.firstName || "N/A"}
                         </div>
                         <div>
                             <span className="font-semibold text-black">Middle Name:</span>{" "}
-                            {profile.middleName || "N/A"}
+                            {profile?.middleName || "N/A"}
                         </div>
                         <div>
                             <span className="font-semibold text-black">Last Name:</span>{" "}
-                            {profile.lastName || "N/A"}
+                            {profile?.lastName || "N/A"}
                         </div>
                         <div>
                             <span className="font-semibold text-black">Birthday:</span>{" "}
-                            {profile.birthDay
+                            {profile?.birthDay
                                 ? new Date(profile.birthDay).toLocaleDateString()
                                 : "N/A"}
                         </div>
                         <div>
                             <span className="font-semibold text-black">Email:</span>{" "}
-                            {profile.email || "N/A"}
+                            {profile?.email || "N/A"}
                         </div>
                         <div>
                             <span className="font-semibold text-black">Two-Factor Enabled:</span>{" "}
-                            {profile.isTwoFactorEnabled ? "Yes" : "No"}
+                            {profile?.isTwoFactorEnabled ? "Yes" : "No"}
                         </div>
                     </div>
 

@@ -1,11 +1,11 @@
+// File: app/mfa/enable-2fa/page.js
 "use client";
-
 import React, { useState } from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { enable2FA } from "../../../src/services/mfaService";
 
-export default function Enable2FA() {
-    // Just remove <string | null>
+const Enable2FA = () => {
     const [qrCodeUrl, setQrCodeUrl] = useState(null);
     const [error, setError] = useState("");
     const router = useRouter();
@@ -14,12 +14,12 @@ export default function Enable2FA() {
         try {
             const response = await enable2FA();
             setQrCodeUrl(response.qrCodeUrl);
-        } catch (err) {
+        } catch {
             setError("Failed to enable 2FA. Please try again.");
         }
     };
 
-    const handleProceedToVerify = () => {
+    const handleNavigateToProfile = () => {
         router.push("/mfa/verify-2fa");
     };
 
@@ -43,8 +43,8 @@ export default function Enable2FA() {
                             Protect your account by adding a second layer of security.
                         </p>
                         <p>
-                            Click <span className="font-bold">"Enable 2FA"</span> to generate
-                            a unique QR code. Then scan it with your authenticator app.
+                        Click <span className="font-bold">&quot;Enable 2FA&quot;</span> to generate
+
                         </p>
                     </div>
                 )}
@@ -65,24 +65,27 @@ export default function Enable2FA() {
                         <p className="mb-2 font-medium text-gray-700">
                             Scan this QR code with your authenticator app:
                         </p>
-                        <img
+                        <Image
                             src={qrCodeUrl}
                             alt="QR Code for 2FA"
+                            width={300}
+                            height={300}
                             className="mx-auto border p-2 rounded-md shadow-md"
                         />
                         <p className="text-sm mt-4 text-gray-600">
-                            After scanning, click below to verify your code.
+                            After scanning, proceed to verification.
                         </p>
-
                         <button
-                            onClick={handleProceedToVerify}
+                            onClick={handleNavigateToProfile}
                             className="mt-4 bg-green-600 text-white py-2 px-4 rounded-md font-semibold hover:bg-green-700 transition"
                         >
-                            Proceed to Verify
+                            Verify
                         </button>
                     </div>
                 )}
             </div>
         </div>
     );
-}
+};
+
+export default Enable2FA;

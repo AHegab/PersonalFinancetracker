@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { resetPassword } from "../../services/passwordService";
-import router from "next/router";
+// import router from "next/router";
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import { resetPassword } from "../../../src/services/passwordService";
 
 const ResetPassword = () => {
     const searchParams = useSearchParams();
@@ -12,6 +13,7 @@ const ResetPassword = () => {
     const [newPassword, setNewPassword] = useState("");
     const [successMessage, setSuccessMessage] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
+    const router = useRouter();
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -40,6 +42,8 @@ const ResetPassword = () => {
     }
 
     return (
+        <div className="flex justify-center items-center min-h-screen bg-gray-100 text-black">
+
         <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-6">
             <h1 className="text-3xl font-bold mb-4">Reset Password</h1>
             <form onSubmit={handleSubmit} className="w-full max-w-md bg-white p-6 rounded-lg shadow-md">
@@ -65,6 +69,8 @@ const ResetPassword = () => {
 
             {successMessage && <p className="text-green-500 mt-4">{successMessage}</p>}
             {errorMessage && <p className="text-red-500 mt-4">{errorMessage}</p>}
+        </div>
+
         </div>
     );
 };

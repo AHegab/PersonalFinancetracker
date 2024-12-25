@@ -42,8 +42,8 @@ const TransactionsPage = () => {
         try {
             const data = await getUserTransactions();
             setTransactions(data);
-        } catch (err) {
-            console.error("Error fetching transactions:", err.message);
+        } catch (error) {
+            console.error("Error fetching transactions:", error.message);
             setError("Failed to fetch transactions.");
         } finally {
             setLoading(false);
@@ -88,8 +88,9 @@ const TransactionsPage = () => {
             setTransactions((prev) =>
                 prev.filter((transaction) => transaction.id !== id)
             );
-        } catch (err) {
-            toast.error("Failed to delete transaction.");
+        } catch (error) {
+            console.error("Error deleting transaction:", error.message); // Log error to use it
+        toast.error("Failed to delete transaction.");
         }
     };
 

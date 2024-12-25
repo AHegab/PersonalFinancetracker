@@ -1,3 +1,28 @@
 {
-  "extends": ["next/core-web-vitals", "next/typescript"]
+  "extends": [
+    "next",
+    "next/core-web-vitals",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "plugins": [
+    "unused-imports"
+  ],
+  "rules": {
+    // Automatically remove unused imports on save/fix
+    "unused-imports/no-unused-imports": "error",
+    
+    // Warn about unused variables, but allow underscore-prefixed variables
+    "unused-imports/no-unused-vars": [
+      "warn",
+      {
+        "vars": "all",
+        "varsIgnorePattern": "^_",
+        "args": "after-used",
+        "argsIgnorePattern": "^_"
+      }
+    ],
+
+    // Disable the built-in no-unused-vars if it conflicts
+    "@typescript-eslint/no-unused-vars": "off"
+  }
 }
