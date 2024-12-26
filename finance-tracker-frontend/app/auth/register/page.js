@@ -49,14 +49,16 @@ const RegisterPage = () => {
             await register(payload); // Call the API
             router.push("/auth/login"); // Redirect on success
         } catch (err) {
-            console.log(err)
+            console.error("Register Error:", err);
+
             if (err.response?.data?.message) {
-                setError(err.response.data.message); // Display backend error
+                // Display the backend error message
+                setError(err.response.data.message);
             } else {
+                // Fallback to a generic error
                 setError("An unexpected error occurred. Please try again.");
             }
         }
-        
     };
 
     // Handle form input changes
