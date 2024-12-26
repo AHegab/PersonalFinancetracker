@@ -34,7 +34,8 @@ const LoginPage = () => {
                 router.push("/mfa/enable-2fa");
             }
         } catch (err) {
-            console.error(err);
+            console.error("Error during login:", err);
+            // Display server error message to the user
             setError(
                 err.response?.data?.message || "Something went wrong. Please try again."
             );
@@ -46,12 +47,16 @@ const LoginPage = () => {
             <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md">
                 <h1 className="text-3xl font-bold mb-6 text-center text-gray-800">Login</h1>
                 <form onSubmit={handleSubmit} className="space-y-4">
-                    {error && <p className="text-red-500 text-sm font-medium text-center">{error}</p>}
+                    {error && (
+                        <p className="text-red-500 text-sm font-medium text-center">
+                            {error}
+                        </p>
+                    )}
                     <div>
                         <label className="block text-sm font-medium text-gray-700">Email</label>
                         <input
                             type="text"
-                            name='email'
+                            name="email"
                             placeholder="Email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
@@ -63,7 +68,7 @@ const LoginPage = () => {
                         <label className="block text-sm font-medium text-gray-700">Password</label>
                         <input
                             type="password"
-                            name='password'
+                            name="password"
                             placeholder="Password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
@@ -79,8 +84,7 @@ const LoginPage = () => {
                     </button>
                 </form>
                 <p className="mt-4 text-center text-sm text-gray-600">
-                Don&apos;t have an account? Sign up now.
-
+                    Don&apos;t have an account?{" "}
                     <a href="/auth/register" className="text-blue-600 hover:underline">
                         Register here
                     </a>

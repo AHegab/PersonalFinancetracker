@@ -56,6 +56,7 @@ const RegisterPage = () => {
                 setError("An unexpected error occurred. Please try again.");
             }
         }
+        
     };
 
     // Handle form input changes

@@ -15,9 +15,9 @@ Modal.setAppElement("body");
 
 // Define the UserProfile type
 interface UserProfile {
-    firstName: string;
-    middleName: string;
-    lastName: string;
+    firstName?: string;
+    middleName?: string;
+    lastName?: string;
     phoneNumber?: string;
     birthDay?: string;
     email: string;
